@@ -1,0 +1,47 @@
+select * from all_users
+
+
+show parameter resource_limit;  --ver el estado de los recurso limitados
+alter system set resource_limit = true; --modificar el resouce limit y conviertelo en verdadero
+
+select * from dba_profiles;    --lista todos los perfiles
+
+
+CONNECT TIME --- TIEMPO PERMITIDO PARA QUE EL USUARIO ESTE CONECTADO (MINUTOS)
+
+IDLE_TIME ---- TIEMPO EN EL CUAL EL USUARIO PUEDE ESTAR SIN ACTIVIDAD (MINUTOS)
+
+SESSIONS_PER_USER --- CANTIDAD DE SESIONES ABIERTAS CONCUURRENTES PERMITIDAS (DIAS)
+
+PASSWORD_LIFE_TIME ---TIEMPO DE VIDA DE LA CLAVE (DIAS)
+
+
+
+--creacion de perfil
+
+CREATE PROFILE PERFIL_1 LIMIT  
+PASSWORD_LIFE_TIME 30;  --CARACCTERISTICAS
+  
+  
+ SELECT * FROM DBA_PROFILES  --SABER LAS CARACTERISTICAS DEL PERFIL 
+ WHERE PROFILE ='PERFIL_1'
+ ORDER BY RESOURCE_NAME; --ORDENADO POR RECURSOS
+ 
+ 
+ --MODIFICAR PERFIL
+ ALTER PROFILE PERFIL_1 LIMIT
+ SESSIONS_PER_USER 1;
+ 
+create user perfiles
+identified by PERFILES
+default tablespace users
+temporary tablespace temp
+QUOTA 2000k on userS
+
+GRANT CREATE SESSION TO PERFILES;
+
+
+--ASIGNAR USUARIO A PERFIL
+
+ALTER USER PERFILES
+PROFILE PERFIL_1;
